@@ -1,0 +1,69 @@
+﻿rm(R)
+library(gridExtra)
+ubicacion<-c("C:\\Users\\DELL\\Desktop\\heuristico\\Resultados\\")
+plantas<-c("10","15","20","25","30")
+subconjuntos<-c("Subsets","05","10","20","30","40","50")
+clientes<-c("100","150","200","250","300","350","400","450","500","550")
+CD<-c("20","25","30","35","40","45","50")
+casos<-c("R","05","10","20","30","40","50")
+
+#################################################################################
+R=data.frame(plantas)
+archivo<-c("C:\\Users\\DELL\\Desktop\\heuristico\\Resultados\\resultados05.dat")
+#para leer los 6 archivos
+for (i in 3:8){
+	A<-read.csv(archivo, header=FALSE, sep = "*")
+	P=aggregate(A$V6~A$V2,A,mean)
+	R=cbind(R,P[2])	
+	substr(archivo,55,56)<-casos[i]
+	R
+}
+colnames(R)<-casos
+sink(paste(ubicacion,'R_Plants.dat'))
+R
+sink()
+rm(R)
+
+
+#################################################################################
+R=data.frame(CD)
+archivo<-c("C:\\Users\\DELL\\Desktop\\heuristico\\Resultados\\resultados05.dat")
+for (i in 3:8){
+	A<-read.csv(archivo, header=FALSE, sep = "*")
+	P=aggregate(A$V6~A$V3,A,mean)
+	R=cbind(R,P[2])	
+	substr(archivo,55,56)<-casos[i]
+}
+colnames(R)<-casos
+sink(paste(ubicacion,'R_CD.dat'))
+R
+sink()
+rm(R)
+#################################################################################
+R=data.frame(clientes)
+archivo<-c("C:\\Users\\DELL\\Desktop\\heuristico\\Resultados\\resultados05.dat")
+for (i in 3:8){
+	A<-read.csv(archivo, header=FALSE, sep = "*")
+	P=aggregate(A$V6~A$V4,A,mean)
+	R=cbind(R,P[2])	
+	substr(archivo,55,56)<-casos[i]
+}
+colnames(R)<-casos
+sink(paste(ubicacion,'R_Retailers.dat'))
+R
+sink()
+rm(R)
+#################################################################################
+R=data.frame(R)
+archivo<-c("C:\\Users\\DELL\\Desktop\\heuristico\\Resultados\\resultados05.dat")
+for (i in 3:8){
+	A<-read.csv(archivo, header=FALSE, sep = "*")
+	P=aggregate(A$V6~A$V5,A,mean)
+	R=cbind(R,P[2])	
+	substr(archivo,55,56)<-casos[i]
+}
+colnames(R)<-casos
+sink(paste(ubicacion,'R_Columns.dat'))
+R
+sink()
+rm(R)

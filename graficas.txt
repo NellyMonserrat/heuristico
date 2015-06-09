@@ -1,0 +1,65 @@
+﻿local({pkg <- select.list(sort(.packages(all.available = TRUE)),graphics=TRUE)
++ if(nchar(pkg)) library(pkg, character.only=TRUE)})
+install.packages("gridExtra")
+library(gridExtra)
+library(ggplot2)
+
+
+#clientes
+A<-read.csv("C:\\Users\\DELL\\Dropbox\\0.-respaldos29\\heuristico\\resultados.dat",header=FALSE, sep = "*")
+B<-read.csv("C:\\Users\\DELL\\Dropbox\\0.-respaldos29\\heuristico\\resultados1.dat",header=FALSE, sep = "*")
+RA = aggregate(A$V6~A$V3,A,mean)
+RB = aggregate(B$V6~B$V3,B,mean)
+Res = cbind (RA[1:2], RB[2])
+Respuesta = data.frame(Res)
+qplot(Respuesta[,1],Respuesta[,2],Respuesta,geom=c("point","path"),xlab=NULL,ylab="Time [ms]")+geom_point(size=4,colour = "blue")+
+	theme(text = element_text(size=30),axis.ticks.length=unit(1, "lines"),axis.text.x = element_text(hjust = 1, size=30,color="black"), 
+  	axis.text.y = element_text(hjust = 1, size=30,color="black"),
+	panel.background = element_blank(),axis.line = element_line(colour = "black"))
+
+qplot(Respuesta[,1],Respuesta[,3],Respuesta,geom=c("point","path"),xlab=NULL,ylab="Time [ms]")+geom_point(size=4,colour = "blue")+
+	theme(text = element_text(size=30),axis.ticks.length=unit(1, "lines"),axis.text.x = element_text(hjust = 1, size=30,color="black"), 
+  	axis.text.y = element_text(hjust = 1, size=30,color="black"),
+	panel.background = element_blank(),axis.line = element_line(colour = "black"))
+
+
+#plantas
+RA = aggregate(A$V6~A$V2,A,mean)
+RB = aggregate(B$V6~B$V2,B,mean)
+Res = cbind (RA[1:2], RB[2])
+Respuesta = data.frame(Res)
+qplot(Respuesta[,1],Respuesta[,2],Respuesta,geom=c("point","path"),xlab=NULL,ylab="Time [ms]")+geom_point(size=4,colour = "blue")+
+	theme(text = element_text(size=30),axis.ticks.length=unit(1, "lines"),axis.text.x = element_text(hjust = 1, size=30,color="black"), 
+  	axis.text.y = element_text(hjust = 1, size=30,color="black"),
+	panel.background = element_blank(),axis.line = element_line(colour = "black"))
+
+qplot(Respuesta[,1],Respuesta[,3],Respuesta,geom=c("point","path"),xlab=NULL,ylab="Time [ms]")+geom_point(size=4,colour = "blue")+
+	theme(text = element_text(size=30),axis.ticks.length=unit(1, "lines"),axis.text.x = element_text(hjust = 1, size=30,color="black"), 
+  	axis.text.y = element_text(hjust = 1, size=30,color="black"),
+	panel.background = element_blank(),axis.line = element_line(colour = "black"))
+
+
+#subconjuntos
+
+RA = aggregate(A$V6~A$V5,A,mean)
+RB = aggregate(B$V6~B$V5,B,mean)
+prueba=rbind(50,RB)
+prueba[1,2]=RA[1,2]
+qplot(prueba[,1],prueba[,2],prueba,geom=c("point","path"),xlab="Columns",ylab="Time [ms]")+geom_point(size=4,colour = "blue")+
+	theme(text = element_text(size=20),axis.ticks.length=unit(1, "lines"),axis.text.x = element_text(hjust = 1, size=20,color="black"), 
+  	axis.text.y = element_text(hjust = 1, size=20,color="black"),
+	panel.background = element_blank(),axis.line = element_line(colour = "black"))
+
+
+
+qplot(prueba[,1],prueba[,2],RA,geom=c("point","path"),xlab="Columns = 5*|K|",ylab="Time [ms]")+geom_point(size=4,colour = "blue")+ theme_bw()
+
+#plantas
+RA = aggregate(A$V6~A$V2,A,mean)
+RB = aggregate(B$V6~B$V2,B,mean)
+Res = cbind (RA[1:2], RB[2])
+Respuesta = data.frame(Res)
+pA<-qplot(RA[,1],RA[,2],RA,geom=c("point","path"),xlab="Plants",ylab="Time [ms]")+geom_point(size=4,colour = "blue")+ theme_bw()
+pB<-qplot(RB[,1],RB[,2],RB,geom=c("point","path"),xlab="Plants",ylab="Time [ms]")+geom_point(size=4,colour = "blue")+ theme_bw()
+grid.arrange(arrangeGrob(pA,pB vjust = 1, gp = gpar(fontface = "bold", cex = 1))))
+
